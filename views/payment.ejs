@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Hylet</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        Welcome to Payment Page
+        <script src="" async defer></script>
+        <%if(msg){%>
+            <p><%=msg%></p>
+        <%}%>
+        <%if(order){%>
+            <p id='order-id'><%=order.id%></p>
+            <p id='key-id'><%=id%></p>
+            <button id="rzp-button1">Pay</button>
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+            <script>
+            var oid = document.getElementById('order-id').innerText;
+            var kid = document.getElementById('key-id').innerText;
+            document.getElementById('order-id').remove();
+            document.getElementById('key-id').remove();
+            var options = {    
+            "key": kid, // Enter the Key ID generated from the Dashboard    
+            "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise    
+            "currency": "INR",    
+            "name": "Hylet Corp",    
+            "description": "Test Transaction",    
+            "image": "https://example.com/your_logo",    
+            "order_id": oid, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1    
+            "callback_url": `http://localhost:3000/callback/${oid}`,    
+            "redirect":true,
+            "prefill": {        
+                "name": "Gaurav Kumar",        
+                "email": "gaurav.kumar@example.com",        
+                "contact": "9999999999"    
+            },    
+            "notes": {        
+                "address": "Razorpay Corporate Office"    
+            },    
+            "theme": {        
+                    "color": "#3399cc"
+            }
+        };
+            
+            var rzp1 = new Razorpay(options);
+            document.getElementById('rzp-button1').onclick = function(e){    
+                rzp1.open();    
+                e.preventDefault();
+                }
+            </script>
+        <%}%>
+    </body>
+</html>
